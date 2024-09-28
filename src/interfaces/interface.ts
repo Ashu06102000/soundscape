@@ -9,13 +9,16 @@ export interface Playlist {
 export interface PlaylistListProps {
   onSelectPlaylist: (playlistId: string) => void;
 }
+export interface AlbumListProps {
+  onSelectAlbum: (albumId: string) => void;
+}
 export interface TrackListProps {
   playlistId: string;
   onClose: () => void;
   onTrackSelect: (trackUri: string) => void;
 }
-export interface AlbumListProps {
-  playlistId: string;
+export interface AlbumListType {
+  albumId: string | null;
   onClose: () => void;
   onTrackSelect: (trackUri: string) => void;
 }

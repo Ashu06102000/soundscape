@@ -2,18 +2,13 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import {
   AlbumProps,
-  PlaylistListProps,
   AlbumState,
-} from "../../interfaces/interface"; // Adjust this path according to your project structure
+  AlbumListProps,
+} from "../../interfaces/interface";
 import { motion } from "framer-motion";
 
-// Define the Album interface
-
-// Props interface for the Album component
-
-// Main Album component
-const Album: React.FC<PlaylistListProps> = ({ onSelectPlaylist }) => {
-  const [savedAlbums, setSavedAlbums] = useState<AlbumState[]>([]); // Use the Album type for state
+const Album: React.FC<AlbumListProps> = ({ onSelectAlbum }) => {
+  const [savedAlbums, setSavedAlbums] = useState<AlbumState[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(
@@ -21,9 +16,8 @@ const Album: React.FC<PlaylistListProps> = ({ onSelectPlaylist }) => {
   );
 
   useEffect(() => {
+    if (!token) return;
     const fetchSavedAlbums = async () => {
-      if (!token) return;
-
       setLoading(true);
       setError(null);
 
@@ -36,6 +30,7 @@ const Album: React.FC<PlaylistListProps> = ({ onSelectPlaylist }) => {
 
         if (response.ok) {
           const data: AlbumProps = await response.json(); // Explicitly type the response
+
           setSavedAlbums(data.items); // Store saved albums
         } else {
           setError(`Failed to fetch saved albums: ${response.statusText}`);
@@ -65,7 +60,9 @@ const Album: React.FC<PlaylistListProps> = ({ onSelectPlaylist }) => {
             <motion.li
               key={album.album.id}
               className="relative flex flex-col items-center p-4 bg-white pb-0 max-w-60 rounded-xl shadow-md transition-transform duration-200 cursor-pointer"
-              onClick={() => onSelectPlaylist(album.album.id)}
+              onClick={() => {
+                onSelectAlbum(album.album.id);
+              }}
             >
               <img
                 src={

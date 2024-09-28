@@ -34,7 +34,7 @@ const TrackList: React.FC<TrackListProps> = ({
         if (response.ok) {
           const data = await response.json();
           const trackItems = data.items.map((item: any) => item.track);
-          console.log(trackItems);
+
           setTracks(trackItems);
         } else {
           setError("Failed to fetch tracks: " + response.statusText);

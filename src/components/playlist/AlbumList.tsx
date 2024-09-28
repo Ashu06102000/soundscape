@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Track, AlbumListProps } from "../../interfaces/interface";
+import { Track, AlbumListType } from "../../interfaces/interface";
 import Cookies from "js-cookie";
 import { motion } from "framer-motion";
 import { Spotify } from "react-spotify-embed";
 
-const AlbumList: React.FC<AlbumListProps> = ({
-  playlistId,
+const AlbumList: React.FC<AlbumListType> = ({
+  albumId,
   onClose,
   onTrackSelect,
 }) => {
@@ -17,13 +17,13 @@ const AlbumList: React.FC<AlbumListProps> = ({
 
   useEffect(() => {
     const fetchTracks = async () => {
-      if (!playlistId || !token) return;
-
+      if (!albumId || !token) return;
+      console.log(albumId, "albumId");
       setLoading(true);
       setError(null);
       try {
         const response = await fetch(
-          `https://api.spotify.com/v1/albums/${playlistId}/tracks`,
+          `https://api.spotify.com/v1/albums/${albumId}/tracks`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -33,9 +33,8 @@ const AlbumList: React.FC<AlbumListProps> = ({
 
         if (response.ok) {
           const data = await response.json();
-          const trackItems = data.items.map((item: any) => item.track);
-          console.log(trackItems);
-          setTracks(trackItems);
+
+          setTracks(data.items);
         } else {
           setError("Failed to fetch tracks: " + response.statusText);
         }
@@ -48,8 +47,8 @@ const AlbumList: React.FC<AlbumListProps> = ({
     };
 
     fetchTracks();
-  }, [playlistId, token]);
-
+  }, [albumId, token]);
+  console.log(tracks, "tracks");
   const handleTrackSelect = (trackUri: string) => {
     const trackId = trackUri.split(":")[2];
 
@@ -80,13 +79,10 @@ const AlbumList: React.FC<AlbumListProps> = ({
               className={`flex items-center gap-4 p-4  rounded-lg hover:bg-gray-200 cursor-pointer ${
                 selectedTrackId === track.id ? "bg-orange-600" : "bg-gray-100"
               }`}
-              onClick={() => handleTrackSelect(track.uri)}
+              onClick={() => {
+                handleTrackSelect(track.uri);
+              }}
             >
-              <img
-                src={track.album.images[0]?.url}
-                alt={track.name}
-                className="w-16 h-16 rounded-md"
-              />
               <div className="flex flex-col">
                 <h3
                   className={`text-lg font-semibold ${

@@ -2,7 +2,6 @@ import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { Playlist, PlaylistListProps } from "../../interfaces/interface";
 import { motion } from "framer-motion";
-import foldermusic from "../../assets/foldermusic.png";
 
 const PlaylistList: React.FC<PlaylistListProps> = ({ onSelectPlaylist }) => {
   const [token, setToken] = useState<string | null>(
@@ -62,7 +61,9 @@ const PlaylistList: React.FC<PlaylistListProps> = ({ onSelectPlaylist }) => {
               key={playlist.id}
               className="relative flex flex-col items-center p-4 bg-white pb-0 max-w-60  rounded-xl shadow-md transition-transform duration-200 cursor-pointer"
               // whileHover={{ scale: 1.05 }}
-              onClick={() => onSelectPlaylist(playlist.id)}
+              onClick={() => {
+                onSelectPlaylist(playlist.id);
+              }}
             >
               <img
                 src={
