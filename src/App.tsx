@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Import routing components
 import Cookies from "js-cookie";
 import Login from "./auth/Login";
-import { Playlist } from "./interfaces/interface";
-import Playlists from "./components/playlist/PlaylistList";
-import Layout from "./Layout";
+
+import Layout from "./Layout"; // Main layout component
+import Sidebar from "./components/sidebar/Sidebar"; // Sidebar component
+import Settings from "./components/settings/Settings";
+import Favorites from "./components/Favorites/Favorites";
+import Home from "./components/home/home";
+import PlaylistList from "./components/playlist/PlaylistList";
 
 const App: React.FC = () => {
   const [token, setToken] = useState<string | undefined>(
     Cookies.get("spotifyToken") || ""
   );
+
   useEffect(() => {
     const hash = window.location.hash;
-    let token = Cookies.get("spotifyToken");
+    let tokenFromCookies = Cookies.get("spotifyToken");
 
-    if (!token && hash) {
+    if (!tokenFromCookies && hash) {
       const tokenFromHash = hash
         .substring(1)
         .split("&")
@@ -26,24 +32,37 @@ const App: React.FC = () => {
         setToken(tokenFromHash);
       }
     } else {
-      setToken(token);
+      setToken(tokenFromCookies);
     }
   }, []);
+
   const logout = () => {
     setToken("");
     Cookies.remove("spotifyToken");
   };
 
   return (
-    <div className="App">
-      {!token ? (
-        <Login />
-      ) : (
-        <>
-          <Layout logout={logout} />
-        </>
-      )}
-    </div>
+    <Router>
+      <div className="App">
+        {!token ? (
+          <Login />
+        ) : (
+          <div className="flex">
+            <Sidebar logout={logout} />
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/playlists" element={<PlaylistList />} />
+
+                <Route path="/settings" element={<Settings />} />
+
+                <Route path="/favorites" element={<Favorites />} />
+              </Routes>
+            </Layout>
+          </div>
+        )}
+      </div>
+    </Router>
   );
 };
 
