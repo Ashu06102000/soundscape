@@ -14,13 +14,13 @@ const Playlist = () => {
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative justify-between flex w-full">
       <PlaylistList
         onSelectPlaylist={(playlistId) => setSelectedPlaylist(playlistId)}
       />
 
       <motion.div
-        className="absolute top-0 right-0 h-full"
+        className="w-1/4 h-full"
         initial={{ x: "100%" }}
         animate={{ x: selectedPlaylist ? 0 : "100%" }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -33,12 +33,6 @@ const Playlist = () => {
           />
         )}
       </motion.div>
-
-      {/* SoundScapePlayer to play selected track */}
-      <SoundScapePlayer
-        token={Cookies.get("spotifyToken") || ""}
-        trackUri={selectedTrackUri}
-      />
     </div>
   );
 };

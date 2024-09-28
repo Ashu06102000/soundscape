@@ -63,20 +63,27 @@ const SoundScapePlayer: React.FC<SoundScapePlayerProps> = ({
   // Play the selected track when the URI changes and the player is ready
   useEffect(() => {
     if (player && isReady && trackUri) {
-      player.resume().then(() => {
-        player
-          .play({
-            uris: [trackUri], // Play the selected track
-          })
-          .then(() => {
+      player.activateElement();
+      fetch(`https://api.spotify.com/v1/me/player/play`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ uris: [trackUri] }),
+      })
+        .then((response) => {
+          if (response.ok) {
             console.log("Playing track:", trackUri);
-          })
-          .catch((error: any) => {
-            console.error("Error playing track:", error);
-          });
-      });
+          } else {
+            console.error("Error playing track:", response.statusText);
+          }
+        })
+        .catch((error: any) => {
+          console.error("Error playing track:", error);
+        });
     }
-  }, [player, isReady, trackUri]); // Ensure to include all dependencies
+  }, [player, isReady, trackUri, token]);
 
   return (
     <div id="spotify-player" style={{ width: "100%", height: "80px" }}>
