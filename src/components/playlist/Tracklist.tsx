@@ -33,7 +33,7 @@ const TrackList: React.FC<TrackListProps> = ({
 
         if (response.ok) {
           const data = await response.json();
-          const trackItems = data.items.map((item: any) => item.track); // Extract tracks from items
+          const trackItems = data.items.map((item: any) => item.track);
           console.log(trackItems);
           setTracks(trackItems);
         } else {
@@ -51,11 +51,10 @@ const TrackList: React.FC<TrackListProps> = ({
   }, [playlistId, token]);
 
   const handleTrackSelect = (trackUri: string) => {
-    // Extract the track ID from the URI
     const trackId = trackUri.split(":")[2];
-    console.log(trackId);
+
     setSelectedTrackId(trackId);
-    onTrackSelect(trackUri); // Call the onTrackSelect prop to handle track click
+    onTrackSelect(trackUri);
   };
 
   return (
@@ -78,7 +77,9 @@ const TrackList: React.FC<TrackListProps> = ({
           {tracks.map((track: any) => (
             <li
               key={track.id}
-              className="flex items-center gap-4 p-4 bg-gray-100 rounded-lg hover:bg-gray-200 cursor-pointer"
+              className={`flex items-center gap-4 p-4  rounded-lg hover:bg-gray-200 cursor-pointer ${
+                selectedTrackId === track.id ? "bg-orange-600" : "bg-gray-100"
+              }`}
               onClick={() => handleTrackSelect(track.uri)}
             >
               <img
@@ -87,7 +88,13 @@ const TrackList: React.FC<TrackListProps> = ({
                 className="w-16 h-16 rounded-md"
               />
               <div className="flex flex-col">
-                <h3 className="text-lg font-semibold">{track.name}</h3>
+                <h3
+                  className={`text-lg font-semibold ${
+                    selectedTrackId === track.id ? "text-white" : "text-black"
+                  }`}
+                >
+                  {track.name}
+                </h3>
                 <p className="text-sm text-gray-600">
                   {track.artists.map((artist: any) => artist.name).join(", ")}
                 </p>
