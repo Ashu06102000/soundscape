@@ -56,7 +56,7 @@ const PlaylistList: React.FC<PlaylistListProps> = ({ onSelectPlaylist }) => {
         Library
       </motion.h1>
       {!loading && playlists.length > 0 && (
-        <ul className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 ">
+        <ul className="flex gap-4 ">
           {playlists.map((playlist) => (
             <motion.li
               key={playlist.id}

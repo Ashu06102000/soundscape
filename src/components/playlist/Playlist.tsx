@@ -7,7 +7,7 @@ const Playlist = () => {
   const [selectedPlaylist, setSelectedPlaylist] = useState<string | null>(null);
 
   return (
-    <div className="relative w-full flex h-screen">
+    <div className="relative w-full flex">
       {/* PlaylistList section */}
       <motion.div
         className="h-full"
@@ -23,7 +23,7 @@ const Playlist = () => {
       {/* TrackList section sliding in from the right */}
       {selectedPlaylist && (
         <motion.div
-          className="h-full"
+          className="h-full relative"
           initial={{ width: "0%" }}
           animate={{ width: "30%" }}
           transition={{ duration: 0.5, ease: "easeInOut" }}

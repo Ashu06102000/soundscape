@@ -16,3 +16,7 @@ code {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.tracklist_playlist {
+  height: calc(100vh - 88px);
+}
