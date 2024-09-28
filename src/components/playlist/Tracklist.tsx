@@ -11,7 +11,6 @@ const TrackList: React.FC<TrackListProps> = ({
 }) => {
   const [tracks, setTracks] = useState<Track[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-
   const [error, setError] = useState<string | null>(null);
   const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
   const token = Cookies.get("spotifyToken") || "";
@@ -53,16 +52,15 @@ const TrackList: React.FC<TrackListProps> = ({
 
   const handleTrackSelect = (trackUri: string) => {
     // Extract the track ID from the URI
-
     const trackId = trackUri.split(":")[2];
     console.log(trackId);
-    setSelectedTrackId(trackId); // Store the selected track ID
+    setSelectedTrackId(trackId);
     onTrackSelect(trackUri); // Call the onTrackSelect prop to handle track click
   };
 
   return (
     <motion.div
-      className="w-full bg-white rounded-3xl p-6 shadow-lg overflow-auto tracklist_playlist flex flex-col"
+      className="w-full bg-white rounded-3xl p-6 shadow-lg  flex flex-col"
       initial={{ x: "100%" }}
       animate={{ x: 0 }}
       exit={{ x: "100%" }}
@@ -74,14 +72,9 @@ const TrackList: React.FC<TrackListProps> = ({
 
       {loading && <div className="text-center">Loading tracks...</div>}
       {error && <div className="text-center text-red-500">Error: {error}</div>}
-      {selectedTrackId && (
-        <div>
-          <Spotify link={`https://open.spotify.com/track/${selectedTrackId}`} />
-        </div>
-      )}
 
       {!loading && tracks.length > 0 && (
-        <ul className="mt-4 space-y-4">
+        <ul className="mt-4 space-y-4 tracklist_playlist overflow-auto ">
           {tracks.map((track: any) => (
             <li
               key={track.id}
@@ -102,6 +95,15 @@ const TrackList: React.FC<TrackListProps> = ({
             </li>
           ))}
         </ul>
+      )}
+
+      {selectedTrackId && (
+        <div className=" p-4 bg-white shadow-lg">
+          <Spotify
+            wide
+            link={`https://open.spotify.com/track/${selectedTrackId}`}
+          />
+        </div>
       )}
     </motion.div>
   );

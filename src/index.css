@@ -18,5 +18,5 @@ code {
 @tailwind utilities;
 
 .tracklist_playlist {
-  height: calc(100vh - 88px);
+  height: calc(100vh - 30vh);
 }
