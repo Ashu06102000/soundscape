@@ -11,6 +11,7 @@ export interface PlaylistListProps {
 }
 export interface AlbumListProps {
   onSelectAlbum: (albumId: string) => void;
+  onClose: () => void;
 }
 export interface TrackListProps {
   playlistId: string;

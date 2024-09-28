@@ -6,11 +6,13 @@ import {
   AlbumListProps,
 } from "../../interfaces/interface";
 import { motion } from "framer-motion";
+import { Spotify } from "react-spotify-embed";
 
-const Album: React.FC<AlbumListProps> = ({ onSelectAlbum }) => {
+const Album: React.FC<AlbumListProps> = ({ onSelectAlbum, onClose }) => {
   const [savedAlbums, setSavedAlbums] = useState<AlbumState[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedAlbum, setSelectedAlbum] = useState<string>();
   const [token, setToken] = useState<string | null>(
     Cookies.get("spotifyToken") || ""
   );
@@ -61,7 +63,9 @@ const Album: React.FC<AlbumListProps> = ({ onSelectAlbum }) => {
               key={album.album.id}
               className="relative flex flex-col items-center p-4 bg-white pb-0 max-w-60 rounded-xl shadow-md transition-transform duration-200 cursor-pointer"
               onClick={() => {
+                setSelectedAlbum(album.album.id);
                 onSelectAlbum(album.album.id);
+                onClose();
               }}
             >
               <img
@@ -83,6 +87,7 @@ const Album: React.FC<AlbumListProps> = ({ onSelectAlbum }) => {
               </div>
             </motion.li>
           ))}
+          <Spotify link={`https://open.spotify.com/album/${selectedAlbum}`} />
         </ul>
       )}
     </div>

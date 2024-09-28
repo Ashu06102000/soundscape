@@ -59,7 +59,7 @@ const TrackList: React.FC<TrackListProps> = ({
 
   return (
     <motion.div
-      className="w-full bg-white rounded-3xl p-6 shadow-lg  flex flex-col"
+      className="w-full bg-white max-w-[400px] rounded-3xl p-6 shadow-lg  flex flex-col h-full"
       initial={{ x: "100%" }}
       animate={{ x: 0 }}
       exit={{ x: "100%" }}
