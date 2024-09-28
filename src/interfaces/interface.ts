@@ -12,11 +12,16 @@ export interface PlaylistListProps {
 export interface TrackListProps {
   playlistId: string;
   onClose: () => void;
+  onTrackSelect: (trackUri: string) => void;
 }
 
+// Example Track interface
 export interface Track {
   id: string;
   name: string;
+  album: {
+    images: { url: string }[];
+  };
   artists: { name: string }[];
-  album: { name: string; images: { url: string }[] };
+  uri: string; // Add this line if it's missing
 }

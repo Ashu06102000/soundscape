@@ -1,39 +1,44 @@
 import React, { useState } from "react";
 import PlaylistList from "./PlaylistList";
-import TrackList from "./Tracklist";
 import { motion } from "framer-motion";
+import TrackList from "./Tracklist";
+import SoundScapePlayer from "../../player/SountScapePlayer";
+import Cookies from "js-cookie";
 
 const Playlist = () => {
   const [selectedPlaylist, setSelectedPlaylist] = useState<string | null>(null);
+  const [selectedTrackUri, setSelectedTrackUri] = useState<string | null>(null);
+
+  const handleTrackSelect = (trackUri: string) => {
+    setSelectedTrackUri(trackUri);
+  };
 
   return (
-    <div className="relative w-full flex">
-      {/* PlaylistList section */}
+    <div className="relative w-full">
+      <PlaylistList
+        onSelectPlaylist={(playlistId) => setSelectedPlaylist(playlistId)}
+      />
+
       <motion.div
-        className="h-full"
-        initial={{ width: "100%" }}
-        animate={{ width: selectedPlaylist ? "70%" : "100%" }}
+        className="absolute top-0 right-0 h-full"
+        initial={{ x: "100%" }}
+        animate={{ x: selectedPlaylist ? 0 : "100%" }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
-        <PlaylistList
-          onSelectPlaylist={(playlistId) => setSelectedPlaylist(playlistId)}
-        />
-      </motion.div>
-
-      {/* TrackList section sliding in from the right */}
-      {selectedPlaylist && (
-        <motion.div
-          className="h-full relative"
-          initial={{ width: "0%" }}
-          animate={{ width: "30%" }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-        >
+        {selectedPlaylist && (
           <TrackList
             playlistId={selectedPlaylist}
             onClose={() => setSelectedPlaylist(null)}
+            onTrackSelect={handleTrackSelect}
           />
-        </motion.div>
-      )}
+        )}
+      </motion.div>
+
+      {/* SoundScapePlayer to play selected track */}
+      <SoundScapePlayer
+        token={Cookies.get("spotifyToken") || ""}
+        trackUri={selectedTrackUri}
+      />
     </div>
   );
 };

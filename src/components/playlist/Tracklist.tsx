@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Playlist, Track, TrackListProps } from "../../interfaces/interface";
+import { TrackListProps, Track } from "../../interfaces/interface";
 import Cookies from "js-cookie";
-import { IoChevronBackCircleSharp } from "react-icons/io5";
-import { IoChevronForwardCircleSharp } from "react-icons/io5";
 import { motion } from "framer-motion";
 
-const TrackList: React.FC<TrackListProps> = ({ playlistId, onClose }) => {
+const TrackList: React.FC<TrackListProps> = ({
+  playlistId,
+  onClose,
+  onTrackSelect,
+}) => {
   const [tracks, setTracks] = useState<Track[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -68,7 +70,8 @@ const TrackList: React.FC<TrackListProps> = ({ playlistId, onClose }) => {
           {tracks.map((track: any) => (
             <li
               key={track.id}
-              className="flex items-center gap-4 p-4 bg-gray-100 rounded-lg hover:bg-gray-200"
+              className="flex items-center gap-4 p-4 bg-gray-100 rounded-lg hover:bg-gray-200 cursor-pointer"
+              onClick={() => onTrackSelect(track.uri)} // Handle track click
             >
               <img
                 src={track.album.images[0]?.url}

@@ -7,4 +7,4 @@ if (!CLIENT_ID || !REDIRECT_URI) {
   throw new Error("Missing Spotify API environment variables.");
 }
 
-export const authUrl = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=user-top-read`;
+export const authUrl = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=user-top-read user-read-playback-state user-modify-playback-state streaming`;
