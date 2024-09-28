@@ -1,8 +1,10 @@
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
-import { Playlist } from "../../interfaces/interface";
+import { Playlist, PlaylistListProps } from "../../interfaces/interface";
+import { motion } from "framer-motion";
+import foldermusic from "../../assets/foldermusic.png";
 
-const PlaylistList: React.FC = () => {
+const PlaylistList: React.FC<PlaylistListProps> = ({ onSelectPlaylist }) => {
   const [token, setToken] = useState<string | null>(
     Cookies.get("spotifyToken") || ""
   );
@@ -24,9 +26,9 @@ const PlaylistList: React.FC = () => {
               },
             }
           );
-          console.log(response, "re");
           if (response.ok) {
             const data = await response.json();
+
             setPlaylists(data.items);
           } else {
             setError("Failed to fetch playlists: " + response.statusText);
@@ -35,23 +37,51 @@ const PlaylistList: React.FC = () => {
           console.error("Error fetching playlists:", error);
           setError("Error fetching playlists. Please try again later.");
         } finally {
-          setLoading(false); // Set loading state to false
+          setLoading(false);
         }
       }
     };
 
     fetchPlaylists();
   }, [token]);
+  {
+    loading && <div>Loading...</div>;
+  }
+  {
+    error && <div>Error: {error}</div>;
+  }
   return (
-    <div>
-      {loading && <div>Loading...</div>}
-      {error && <div>Error: {error}</div>}
+    <div className="flex flex-col gap-8">
+      <motion.h1 className="font-rubik text-4xl text-orange-600 font-medium">
+        Library
+      </motion.h1>
       {!loading && playlists.length > 0 && (
-        <ul>
+        <ul className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 ">
           {playlists.map((playlist) => (
-            <li key={playlist.id}>
-              <h2>{playlist.name}</h2>
-            </li>
+            <motion.li
+              key={playlist.id}
+              className="relative flex flex-col items-center p-4 bg-white pb-0 max-w-60  rounded-xl shadow-md transition-transform duration-200 cursor-pointer"
+              // whileHover={{ scale: 1.05 }}
+              onClick={() => onSelectPlaylist(playlist.id)}
+            >
+              <img
+                src={
+                  playlist.images && playlist.images.length > 0
+                    ? playlist.images[0].url
+                    : "https://via.placeholder.com/300"
+                }
+                alt={playlist.name}
+                className="w-56 h-52 object-cover rounded-t-xl"
+              />
+              <div className="p-2 text-center   w-full rounded-b-xl">
+                <h2 className="text-lg font-semibold text-gray-600 font-rubik">
+                  {playlist.name}
+                </h2>
+                <p className="text-sm text-gray-500 font-rubik">
+                  {playlist.tracks.total} tracks
+                </p>
+              </div>
+            </motion.li>
           ))}
         </ul>
       )}

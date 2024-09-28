@@ -9,6 +9,7 @@ import Settings from "./components/settings/Settings";
 import Favorites from "./components/Favorites/Favorites";
 import Home from "./components/home/home";
 import PlaylistList from "./components/playlist/PlaylistList";
+import Playlist from "./components/playlist/Playlist";
 
 const App: React.FC = () => {
   const [token, setToken] = useState<string | undefined>(
@@ -52,7 +53,7 @@ const App: React.FC = () => {
             <Layout>
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/playlists" element={<PlaylistList />} />
+                <Route path="/library" element={<Playlist />} />
 
                 <Route path="/settings" element={<Settings />} />
 
