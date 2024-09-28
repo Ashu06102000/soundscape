@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import TrackList from "./Tracklist";
 import SoundScapePlayer from "../../player/SountScapePlayer";
 import Cookies from "js-cookie";
+import Album from "./Album";
 
 const Playlist = () => {
   const [selectedPlaylist, setSelectedPlaylist] = useState<string | null>(null);
@@ -17,6 +18,11 @@ const Playlist = () => {
     <div className="relative justify-between flex w-full">
       <PlaylistList
         onSelectPlaylist={(playlistId) => setSelectedPlaylist(playlistId)}
+      />
+      <Album
+        onSelectPlaylist={function (playlistId: string): void {
+          throw new Error("Function not implemented.");
+        }}
       />
 
       <motion.div

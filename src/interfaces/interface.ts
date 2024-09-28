@@ -14,6 +14,11 @@ export interface TrackListProps {
   onClose: () => void;
   onTrackSelect: (trackUri: string) => void;
 }
+export interface AlbumListProps {
+  playlistId: string;
+  onClose: () => void;
+  onTrackSelect: (trackUri: string) => void;
+}
 
 // Example Track interface
 export interface Track {
@@ -24,4 +29,17 @@ export interface Track {
   };
   artists: { name: string }[];
   uri: string; // Add this line if it's missing
+}
+export interface AlbumState {
+  album: {
+    id: string;
+    name: string;
+    images: Array<{
+      url: string;
+    }>;
+    total_tracks: number;
+  };
+}
+export interface AlbumProps {
+  items: AlbumState[]; // Expecting an array of Album objects
 }
