@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { TrackListProps, Track } from "../../interfaces/interface";
-import Cookies from "js-cookie";
+import React from "react";
+import { TrackListProps } from "../../interfaces/interface";
+
 import { motion } from "framer-motion";
 import { Spotify } from "react-spotify-embed";
 
@@ -9,9 +9,6 @@ const TrackList: React.FC<TrackListProps> = ({
   onClose,
   onTrackSelect,
 }) => {
-  const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
-  const token = Cookies.get("spotifyToken") || "";
-
   return (
     <motion.div
       className=" bg-white  rounded-3xl p-6 shadow-lg flex flex-col items-center justify-center mt-auto mb-auto"
@@ -35,6 +32,7 @@ const TrackList: React.FC<TrackListProps> = ({
             maxHeight: "700px",
             minHeight: "700px",
           }}
+          className="fade-in"
           link={`https://open.spotify.com/playlist/${playlistId}?autoplay=true`}
         />
       </motion.div>
