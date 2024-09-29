@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #0f0b22;
+  overflow: hidden;
 }
 
 code {
@@ -18,5 +19,5 @@ code {
 @tailwind utilities;
 
 .tracklist_playlist {
-  height: calc(100vh - 30vh);
+  height: calc(100vh - 32vh);
 }

@@ -22,26 +22,20 @@ const Playlist = () => {
         <PlaylistList
           onSelectPlaylist={(playlistId) => setSelectedPlaylist(playlistId)}
         />
+
         {/* <Album
           onClose={() => setSelectedPlaylist(null)}
           onSelectAlbum={(albumId) => setSelectedAlbum(albumId)}
         /> */}
       </div>
 
-      <motion.div
-        className=" h-full"
-        initial={{ x: "100%" }}
-        animate={{ x: selectedPlaylist ? 0 : "100%" }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-      >
-        {selectedPlaylist && (
-          <TrackList
-            playlistId={selectedPlaylist}
-            onClose={() => setSelectedPlaylist(null)}
-            onTrackSelect={handleTrackSelect}
-          />
-        )}
-      </motion.div>
+      {selectedPlaylist && (
+        <TrackList
+          playlistId={selectedPlaylist}
+          onClose={() => setSelectedPlaylist(null)}
+          onTrackSelect={handleTrackSelect}
+        />
+      )}
     </div>
   );
 };
